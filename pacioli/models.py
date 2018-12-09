@@ -58,7 +58,7 @@ class Transactions(models.Model):
     date = models.DateField()
     description = models.CharField(max_length=200)
     tags = models.CharField(max_length=200)  # Should contain a json
-    comments = models.TextField()
+    comments = models.CharField(max_length=500)
 
 
 class Imports(models.Model):
