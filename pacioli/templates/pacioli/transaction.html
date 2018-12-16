@@ -4,7 +4,24 @@
 {% block content %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% bootstrap_form form %}
+    <h2>Transaction</h2>
+    <table class="table">{{ transactions_form.as_table}}</table>
+    {{ entries_formset.management_form }}
+    <h2>Entries</h2>
+    <table class="table table-hover">
+        <tr>
+            <th>Account</th>
+            <th>Credit</th>
+            <th>Amount</th>
+        </tr>
+        {% for form in entries_formset %}
+        <tr>
+            <td>{{form.account}}</td>
+            <td>{{form.credit}}</td>
+            <td>{{form.amount}}</td>
+        </tr>
+        {% endfor %}
+    </table>
     {% buttons %}
         <button type="submit" class="btn btn-primary">Submit</button>
     {% endbuttons %}

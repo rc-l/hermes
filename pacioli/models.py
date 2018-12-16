@@ -21,6 +21,9 @@ class Accounts(models.Model):
     type = models.CharField(choices=TYPES, max_length=2)
     parent = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Balances(models.Model):
     """
