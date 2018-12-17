@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.http import HttpResponse
 from django.views import View
 from pacioli.forms import TransactionsForm, EntriesFormSet
@@ -20,10 +21,17 @@ class NewTransactionsView(View):
             for form in entriesformset:
                 if not form.data['account'] is None:
                     form.data['transaction'] = transaction
-            # TODO: validate forms
-            # TODO: save forms
-        # TODO: handle invalid transaction form
-        # TODO: handle invalid entries
-        # Handle both by loading the page again with the posted data and a message displaying the issues
-        self.context['message'] = transaction.data
-        return HttpResponse(self.context.keys())
+            if entriesformset.is_valid():
+                entriesformset.save()
+            else:
+                self.context['message'] = entriesformset.errors
+        else:
+            self.context['message'] = transaction.errors
+
+        if "message" in self.context.keys():
+            self.context['message_type'] = "error"
+            return render(request, self.template, self.context)
+        else:
+            self.context['message'] = "Transaction saved sucessfully"
+            self.context['message_type'] = "success"
+            return redirect(reverse("new-transaction"))
