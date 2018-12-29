@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from datetime import date
 
 # Create your models here.
@@ -49,7 +50,7 @@ class Entries(models.Model):
     transaction = models.ForeignKey("Transactions", on_delete=models.CASCADE)
     account = models.ForeignKey("Accounts", on_delete=models.PROTECT)
     credit = models.BooleanField()
-    amount = models.PositiveIntegerField()
+    amount = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0)])
 
 
 class Transactions(models.Model):
