@@ -1,4 +1,4 @@
-from django.forms import ModelForm, formset_factory, DateInput
+from django.forms import ModelForm, modelformset_factory, DateInput
 from pacioli import models
 
 class AccountsForm(ModelForm):
@@ -18,4 +18,4 @@ class EntriesForm(ModelForm):
         model = models.Entries
         fields = ['transaction', 'account', 'credit', 'amount']
 
-EntriesFormSet = formset_factory(EntriesForm, min_num=5)
+EntriesFormSet = modelformset_factory(models.Entries, fields=['transaction', 'account', 'credit', 'amount'], min_num=5)
