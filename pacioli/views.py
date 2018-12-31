@@ -4,8 +4,9 @@ from django.http import HttpResponse
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import FormView, CreateView, UpdateView
 from django.core.exceptions import ValidationError
+from django.forms import inlineformset_factory
 from pacioli.forms import TransactionsForm, EntriesFormSet, EntriesForm
 from pacioli.models import Transactions, Entries
 import logging
@@ -160,11 +161,8 @@ class TransactionView(DetailView):
     model = Transactions
     template_name = "pacioli/transactiondetail.html"
 
-class TransactionView(FormView):
-    form_class = TransactionsForm
-    template_name = "pacioli/transactions.html"
-
 class CreateTransactionView(CreateView):
+    """Create a new transaction. This will redirect to the entries for this transaction upon completion"""
     form_class = TransactionsForm
     template_name = "pacioli/transactions.html"
 
@@ -182,4 +180,10 @@ class CreateTransactionView(CreateView):
         url = reverse('transaction-entries', kwargs={'pk':self.object.id})
         return url
 
+class UpdateTransactionEntriesView(UpdateView):
+    """Create or update the entries to a transaction
+    """
+    template_name = "pacioli/transaction_entries.html"
+    
+# TODO: Implement easy method to output model as table or list in html
 # TODO: make a generic view for adding/updating entries for a transaction. Probably use an inline form to do this 

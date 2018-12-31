@@ -1,5 +1,5 @@
 from django.urls import path
-from pacioli.views import NewTransactionsView, TransactionsView, TransactionView, CreateTransactionView
+from pacioli.views import TransactionsView, TransactionView, CreateTransactionView
 
 urlpatterns = [
     path('transactions/new/', CreateTransactionView.as_view(), name='new-transaction'),
