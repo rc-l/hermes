@@ -167,7 +167,6 @@ class TransactionView(FormView):
 class CreateTransactionView(CreateView):
     form_class = TransactionsForm
     template_name = "pacioli/transactions.html"
-    success_url = "create-entries"
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -175,5 +174,12 @@ class CreateTransactionView(CreateView):
         # Add title
         context['form_title'] = "Transaction"
         return context
+
+    def get_success_url(self):
+        """Override succes url function to dynamically build it based on the successfull object"""
+        if not self.object:
+            raise ReferenceError("The object is not created")
+        url = reverse('transaction-entries', kwargs={'pk':self.object.id})
+        return url
 
 # TODO: make a generic view for adding/updating entries for a transaction. Probably use an inline form to do this 
