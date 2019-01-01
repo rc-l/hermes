@@ -4,12 +4,28 @@
 {% block content %}
 
 <h2>{{ parent_title }}</h2>
-<table class="table">{{ object.as</table>
+<table class="table">{{ parent }}</table>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <h2>{{ form_title }}</h2>
-    <table class="table">{{ form.as_table}}</table>
+    <h2>Entries</h2>
+    {{ formset.management_form }}
+    <table class="table table-hover">
+        <tr>
+            <th>Transaction</th>
+            <th>Account</th>
+            <th>Credit</th>
+            <th>Amount</th>
+        </tr>
+        {% for form in formset %}
+        
+        <tr>
+            <td>{{form.id}}{{form.transaction}} {{form.account}}</td>
+            <td>{{form.credit}}</td>
+            <td>{{form.amount}}</td>
+        </tr>
+        {% endfor %}
+    </table>
     {% buttons %}
         <button type="submit" class="btn btn-primary">Submit</button>
     {% endbuttons %}
