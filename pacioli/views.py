@@ -196,6 +196,8 @@ class UpdateTransactionEntriesView(View):
         context['parent'] = get_object_or_404(Transactions, pk=transaction_id)
         formset = TransactionEntriesFormSet(request.POST, instance=context['parent'])
         logger.info(formset.data)
-        logger.info(formset.is_valid(), formset.errors)
-
-    
+        if formset.is_valid():
+            formset.save()
+        else:
+            context['errors'] = str(formset.errors)
+        return render(request, self.template_name, context)
