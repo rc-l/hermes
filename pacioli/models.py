@@ -50,7 +50,9 @@ class Entries(models.Model):
     transaction = models.ForeignKey("Transactions", on_delete=models.CASCADE)
     account = models.ForeignKey("Accounts", on_delete=models.PROTECT)
     credit = models.BooleanField()
-    amount = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0)])
+    amount = models.DecimalField(
+        max_digits=12, decimal_places=2, validators=[MinValueValidator(0)]
+    )
 
 
 class Transactions(models.Model):
@@ -61,7 +63,9 @@ class Transactions(models.Model):
     created = models.DateField(auto_now_add=True)
     date = models.DateField()
     description = models.CharField(max_length=200)
-    tags = models.CharField(max_length=200, blank=True, null=True)  # Should contain a json
+    tags = models.CharField(
+        max_length=200, blank=True, null=True
+    )  # Should contain a json
     comments = models.CharField(max_length=500, blank=True, null=True)
 
 
