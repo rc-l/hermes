@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+{% load bootstrap4 %}
+{% block content %} 
+    <h2>Transactions</h2>
+    <table class="table table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Tags</th>
+            <th>Comments</th>
+            <th>Actions</th>
+        </tr>
+        {% for transaction in object_list %}
+            <tr>
+                <td>{{transaction.id}}</td>
+                <td>{{transaction.date}}</td>
+                <td>{{transaction.description}}</td>
+                <td>{{transaction.tags}}</td>
+                <td>{{transaction.comments}}</td>
+                <td><a class="btn btn-primary" role="button" href="{% url 'transaction' transaction.id %}">View</a></td>
+            </tr>
+        {% empty %}
+            <tr>No transactions yet.<tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

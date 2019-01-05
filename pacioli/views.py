@@ -21,13 +21,16 @@ logger = logging.getLogger("django.request")
 
 
 class HomePageView(TemplateView):
-    template_name = "home.html"
+    template_name = "pacioli/home.html"
 
 
-class TransactionListView(View):
+class TransactionListView(ListView):
     """View multiple transactions in a list"""
+    # TODO: implement sorting and filtering of transactions
+    # TODO: a view of that shows transaction and entries data
+    # TODO: a delete button for transactions
 
-    pass
+    model = Transactions
 
 
 class TransactionView(DetailView):
