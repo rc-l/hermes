@@ -2,8 +2,8 @@
 {% load static %}
 <html lang="en">
 <head>
-    <link rel="stylesheet" href={% static "bootstrap.min.css" %}>
-    <link rel="stylesheet" href={% static "navbar.css" %}>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static navbar.css %}">
     <title>{% block title %}Hermes Accounting{% endblock %}</title>
 </head>
 
@@ -19,10 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarsExample03">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/advice">Get Mortgage <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'transaction-list' %}">Transactions<span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
