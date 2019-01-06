@@ -32,6 +32,14 @@ class TransactionListView(ListView):
 
     model = Transactions
 
+    def get(self, request, *args, **kwargs):
+        """
+        Override get to manipulate cookies
+        """
+        request.session['pinned_page'] = request.path
+        logger.info(request.path)
+        return super().get(self, request, *args, **kwargs)
+
 
 class TransactionView(DetailView):
     """View details of a single transaction"""
@@ -57,7 +65,7 @@ class CreateTransactionView(CreateView):
         """Override succes url function to dynamically build it based on the successfull object"""
         if not self.object:
             raise ReferenceError("The object is not created")
-        url = reverse("transaction-entries", kwargs={"pk": self.object.id})
+        url = reverse("transaction-entries", kwargs={"transaction_id": self.object.id})
         return url
 
 
@@ -83,7 +91,7 @@ class UpdateTransactionEntriesView(View):
                 url = request.session["pinned_page"]
             else:
                 url = reverse("home")
-            redirect(url)
+            return redirect(url)
         else:
             context["errors"] = str(formset.errors)
             context["formset"] = formset
