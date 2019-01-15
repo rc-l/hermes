@@ -15,30 +15,22 @@ from pacioli.forms import (
     TransactionEntriesFormSet,
 )
 from pacioli.models import Transactions, Entries
+from pacioli.mixins import PagePinningMixin
 import logging
 
 logger = logging.getLogger("django.request")
 
-
-class HomePageView(TemplateView):
+class HomePageView(PagePinningMixin, TemplateView):
     template_name = "pacioli/home.html"
 
 
-class TransactionListView(ListView):
+class TransactionListView(PagePinningMixin, ListView):
     """View multiple transactions in a list"""
     # TODO: implement sorting and filtering of transactions
     # TODO: a view of that shows transaction and entries data
     # TODO: a delete button for transactions
 
     model = Transactions
-
-    def get(self, request, *args, **kwargs):
-        """
-        Override get to manipulate cookies
-        """
-        request.session['pinned_page'] = request.path
-        logger.info(request.path)
-        return super().get(self, request, *args, **kwargs)
 
 
 class TransactionView(DetailView):
