@@ -20,6 +20,8 @@ import logging
 
 logger = logging.getLogger("django.request")
 
+# TODO: Create view for importing csv data
+
 class HomePageView(PagePinningMixin, TemplateView):
     template_name = "pacioli/home.html"
 
@@ -33,11 +35,16 @@ class TransactionListView(PagePinningMixin, ListView):
     model = Transactions
 
 
-class TransactionView(DetailView):
+class TransactionView(UpdateView):
     """View details of a single transaction"""
 
     model = Transactions
-    template_name = "pacioli/transactiondetail.html"
+    fields = ["date", "description", "tags", "comments"]
+    template_name_suffix = '_update_form'
+
+    def post(self, request, *args, **kwargs):
+        self.success_url = request.path
+        return super().post(self, request, *args, **kwargs)
 
 
 class CreateTransactionView(CreateView):

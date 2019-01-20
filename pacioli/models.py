@@ -57,7 +57,7 @@ class Entries(models.Model):
 
 class Transactions(models.Model):
     """
-    Transaction is used to register any finanicial transaction or mutation. It always consists of multiple entries.
+    Transaction is used to register any financial transaction or mutation. It always consists of multiple entries.
     """
 
     created = models.DateField(auto_now_add=True)

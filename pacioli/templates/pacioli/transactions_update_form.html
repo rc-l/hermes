@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<p>ID: {{ object.id }}</p>
+<p>Created: {{ object.created }}</p>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+</form>
+<td><a class="btn btn-primary" role="button" href="{% url 'transaction-entries' object.id %}">Entries</a></td>
+
+{% endblock %}
