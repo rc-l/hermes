@@ -43,6 +43,7 @@ class TransactionView(UpdateView):
     template_name_suffix = '_update_form'
 
     def post(self, request, *args, **kwargs):
+        """Override post to have the success url to the current page. Since current page can be obtained through the request object it had to be done in a function that has access to this object."""
         self.success_url = request.path
         return super().post(self, request, *args, **kwargs)
 
@@ -66,6 +67,9 @@ class CreateTransactionView(CreateView):
             raise ReferenceError("The object is not created")
         url = reverse("transaction-entries", kwargs={"transaction_id": self.object.id})
         return url
+
+# TODO: Check the validity of a transaction and it's entries upon creation
+# TODO: create a way to check the validity of existing transactions and it's entries.
 
 
 class UpdateTransactionEntriesView(View):

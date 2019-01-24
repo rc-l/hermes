@@ -1,10 +1,44 @@
-from pacioli.models import Accounts
+from pacioli.models import Accounts, Transactions, Entries
 from django.core.exceptions import ValidationError
 from django.db.models import ObjectDoesNotExist
 import logging
 import os
 import csv
 
+# TODO: generic function for checking a transactions validity
+
+def transaction_validator(transaction):
+    """Tool to validate a transaction.
+    
+    The following rules apply:
+    - A transaction must have two or more account entries associated with it.
+    - The sum of all credit and debit entries must be equal.
+    
+    parameters:
+        transaction: instance of the Transactions model
+        
+    returns:
+        valid (bool): indicates whether the transaction is valid or not
+        error (str): the first error encountered with the transaction
+    """
+    assert type(transaction) == Transactions, "Invalid input type"
+
+    entries = Entries.objects.filter(transaction=transaction)
+    if not len(entries) >= 2:
+        return False, "A transaction needs 2 or more entries, this transaction has {}".format(len(entries))
+
+    debit = 0.0
+    credit = 0.0
+    for e in entries:
+        if e.credit:
+            credit += float(e.amount)
+        else:
+            debit += float(e.amount)
+
+    if not debit == credit:
+        return False, "Sum of the amounts in debit and credit entries are not equal. Debit: {} Credit: {}".format(debit, credit)
+
+    return True, ""
 
 class AccountTools:
     def import_csv(self, file):
