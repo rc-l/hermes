@@ -67,6 +67,7 @@ class Transactions(models.Model):
         max_length=200, blank=True, null=True
     )  # Should contain a json
     comments = models.CharField(max_length=500, blank=True, null=True)
+    valid = models.BooleanField(blank=True, default=False)
 
 
 class Imports(models.Model):

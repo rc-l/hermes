@@ -22,12 +22,14 @@ logger = logging.getLogger("django.request")
 
 # TODO: Create view for importing csv data
 
+
 class HomePageView(PagePinningMixin, TemplateView):
     template_name = "pacioli/home.html"
 
 
 class TransactionListView(PagePinningMixin, ListView):
     """View multiple transactions in a list"""
+
     # TODO: implement sorting and filtering of transactions
     # TODO: a view of that shows transaction and entries data
     # TODO: a delete button for transactions
@@ -36,11 +38,11 @@ class TransactionListView(PagePinningMixin, ListView):
 
 
 class TransactionView(UpdateView):
-    """View details of a single transaction"""
+    """View and edit details of a single transaction"""
 
     model = Transactions
     fields = ["date", "description", "tags", "comments"]
-    template_name_suffix = '_update_form'
+    template_name_suffix = "_update_form"
 
     def post(self, request, *args, **kwargs):
         """Override post to have the success url to the current page. Since current page can be obtained through the request object it had to be done in a function that has access to this object."""
@@ -67,6 +69,7 @@ class CreateTransactionView(CreateView):
             raise ReferenceError("The object is not created")
         url = reverse("transaction-entries", kwargs={"transaction_id": self.object.id})
         return url
+
 
 # TODO: Check the validity of a transaction and it's entries upon creation
 # TODO: create a way to check the validity of existing transactions and it's entries.

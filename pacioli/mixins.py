@@ -5,5 +5,5 @@ class PagePinningMixin(object):
         """
         Override get to manipulate cookies
         """
-        request.session['pinned_page'] = request.path
+        request.session["pinned_page"] = request.path
         return super().get(self, request, *args, **kwargs)
