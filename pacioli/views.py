@@ -16,6 +16,7 @@ from pacioli.forms import (
 )
 from pacioli.models import Transactions, Entries
 from pacioli.mixins import PagePinningMixin
+from pacioli import tools
 import logging
 
 logger = logging.getLogger("django.request")
@@ -71,10 +72,6 @@ class CreateTransactionView(CreateView):
         return url
 
 
-# TODO: Check the validity of a transaction and it's entries upon creation
-# TODO: create a way to check the validity of existing transactions and it's entries.
-
-
 class UpdateTransactionEntriesView(View):
     """Create or update the entries to a transaction"""
 
@@ -97,6 +94,9 @@ class UpdateTransactionEntriesView(View):
                 url = request.session["pinned_page"]
             else:
                 url = reverse("home")
+            # Check the validity of the transaction and write that to the database
+            # An invalid transaction will not block the creation of the transaction it will just be marked as invalid.
+            tools.transaction.batch_validate(context["parent"])
             return redirect(url)
         else:
             context["errors"] = str(formset.errors)
