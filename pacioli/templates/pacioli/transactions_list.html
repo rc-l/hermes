@@ -19,6 +19,7 @@
                 <td>{{transaction.tags}}</td>
                 <td>{{transaction.comments}}</td>
                 <td><a class="btn btn-primary" role="button" href="{% url 'transaction' transaction.id %}">View</a></td>
+                <td><a class="btn btn-danger" role="button" href="{% url 'transaction-delete' transaction.id %}">Delete</a></td>
             </tr>
         {% empty %}
             <tr>No transactions yet.<tr>

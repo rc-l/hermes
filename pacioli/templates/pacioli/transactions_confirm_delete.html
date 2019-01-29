@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<p> Are you sure you want to delete this transaction?</p>
+<p>ID: {{ object.id }}</p>
+<p>Created: {{ object.created }}</p>
+<p>Date: {{ object.date }}</p>
+<p>description: {{ object.description }}</p>
+<p>tags: {{ object.tags }}</p>
+<p>comments: {{ object.comments }}</p>
+<p>valid: {{ object.valid }}</p>
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+<td><a class="btn btn-primary" role="button" href="{{ cancel_url }}">Cancel</a></td>
+
+{% endblock %}

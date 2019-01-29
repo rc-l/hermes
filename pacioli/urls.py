@@ -5,11 +5,13 @@ from pacioli.views import (
     UpdateTransactionEntriesView,
     HomePageView,
     TransactionListView,
+    DeleteTransactionView,
 )
 
 urlpatterns = [
     path("transactions/new/", CreateTransactionView.as_view(), name="new-transaction"),
     path("transactions/<int:transaction_id>/entries", UpdateTransactionEntriesView.as_view(), name="transaction-entries"),
+    path("transactions/<int:pk>/delete", DeleteTransactionView.as_view(), name="transaction-delete"),
     path("transactions/<int:pk>/", TransactionView.as_view(), name="transaction"),
     path("transactions/", TransactionListView.as_view(), name="transaction-list"),
     path("", HomePageView.as_view(), name="home"),

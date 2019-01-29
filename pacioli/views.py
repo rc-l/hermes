@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, CreateView, UpdateView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import TemplateView
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
@@ -102,3 +102,19 @@ class UpdateTransactionEntriesView(View):
             context["errors"] = str(formset.errors)
             context["formset"] = formset
         return render(request, self.template_name, context)
+
+class DeleteTransactionView(DeleteView):
+    model = Transactions
+    success_url = reverse_lazy("home")
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        context['cancel_url'] = request.session.get("pinned_page") or self.success_url
+        return self.render_to_response(context)
+
+
+    def delete(self, request, *args, **kwargs):
+        super().delete(request, *args, **kwargs)
+        success_url = request.session.get("pinned_page") or self.success_url
+        return redirect(success_url)
