@@ -103,6 +103,7 @@ class UpdateTransactionEntriesView(View):
             context["formset"] = formset
         return render(request, self.template_name, context)
 
+
 class DeleteTransactionView(DeleteView):
     model = Transactions
     success_url = reverse_lazy("home")
@@ -110,9 +111,8 @@ class DeleteTransactionView(DeleteView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
-        context['cancel_url'] = request.session.get("pinned_page") or self.success_url
+        context["cancel_url"] = request.session.get("pinned_page") or self.success_url
         return self.render_to_response(context)
-
 
     def delete(self, request, *args, **kwargs):
         super().delete(request, *args, **kwargs)
