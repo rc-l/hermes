@@ -10,6 +10,6 @@
     {{ form.as_p }}
     <input type="submit" value="Update">
 </form>
-<td><a class="btn btn-primary" role="button" href="{% url 'transaction-entries' object.id %}">Entries</a></td>
+<td><a class="btn btn-primary" role="button" href="{% url 'transaction-entries' object.id %}" id="submit-button">Entries</a></td>
 
 {% endblock %}

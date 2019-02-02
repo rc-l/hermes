@@ -26,7 +26,7 @@ SECRET_KEY = "39kb&fnso61k71g_k&9ka*fmq1p9x0a^+vbh4op1uopd=diu(u"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['testserver']
 
 
 # Application definition

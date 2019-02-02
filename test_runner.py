@@ -1,8 +1,8 @@
 import unittest
 import sys
 from django.test.utils import setup_test_environment
-from pacioli.tests import TestsModels
-
+import pacioli.tests
+from importlib import reload
 
 
 def suiteFactory(
@@ -30,8 +30,12 @@ def suiteFactory(
     return test_suite
 
 def execute():
+    '''
+    Run this from django's manage.py shell to execute the tests
+    '''
+    reload(pacioli.tests)  # Reload to automatically pick up changes in the test script.
     setup_test_environment
-    cases = suiteFactory(TestsModels)
+    cases = suiteFactory(pacioli.tests.TestsSystem)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(cases)
 
